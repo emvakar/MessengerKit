@@ -71,7 +71,10 @@ class MSGTravOutgoingBubble: UITextView {
         textContainerInset = UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 20)
         textContainer.lineFragmentPadding = 0
         
-        convertFromOptionalNSAttributedStringKeyDictionary(linkTextAttributes)[NSAttributedString.Key.underlineStyle.rawValue] = NSUnderlineStyle.single.rawValue
+        
+        if var convert = convertFromOptionalNSAttributedStringKeyDictionary(linkTextAttributes) {
+            convert[NSAttributedString.Key.underlineStyle.rawValue] = NSUnderlineStyle.single.rawValue
+        }
         
         addGradientLayer()
     }

@@ -98,8 +98,9 @@ public class MSGTailOutgoingBubble: UITextView {
         
         backgroundColor = .clear
         textColor = .white
-        
-        convertFromOptionalNSAttributedStringKeyDictionary(linkTextAttributes)[NSAttributedString.Key.underlineStyle.rawValue] = NSUnderlineStyle.single.rawValue
+        if var convert = convertFromOptionalNSAttributedStringKeyDictionary(linkTextAttributes) {
+            convert[NSAttributedString.Key.underlineStyle.rawValue] = NSUnderlineStyle.single.rawValue
+        }
         
         addBackground()
         
