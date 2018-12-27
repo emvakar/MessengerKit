@@ -9,13 +9,13 @@
 import Foundation
 
 public protocol MSGMessageCellDelegate: NSObjectProtocol {
-    
+
     func cellLongPressReceived(for message: MSGMessage)
-    
+
     func cellTapReceived(for message: MSGMessage)
-    
+
     func cellLinkTapped(url: URL)
-    
+
     func cellAvatarTapped(for user: MSGUser)
-    
+
 }

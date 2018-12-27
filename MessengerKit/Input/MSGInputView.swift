@@ -27,11 +27,11 @@ open class MSGInputView: UIControl {
 
     /// The maximum height constraint to be set
     public var maxHeight: CGFloat = 120
-    
+
     /// The nib the view should be loaded from.
     /// If this isn't set the view will be loaded from code.
     public class var nib: UINib? { return nil }
-    
+
     /// The style guide the input view should use.
     public var style: MSGMessengerStyle? {
         didSet {
@@ -52,19 +52,19 @@ open class MSGInputView: UIControl {
     private var text: String! {
         return textView.text
     }
-    
+
     override open var tintColor: UIColor! {
         didSet {
             textView.tintColor = tintColor
             sendButton.tintColor = tintColor
         }
     }
-    
+
     required public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
+
     public required init() {
         super.init(frame: .zero)
         setup()
@@ -73,7 +73,7 @@ open class MSGInputView: UIControl {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     open override func awakeFromNib() {
         super.awakeFromNib()
         setup()
@@ -105,11 +105,11 @@ open class MSGInputView: UIControl {
         textView.text = nil
         sendActions(for: .primaryActionTriggered)
     }
-    
+
     @discardableResult open override func resignFirstResponder() -> Bool {
         return textView.resignFirstResponder()
     }
-    
+
     @discardableResult open override func becomeFirstResponder() -> Bool {
         return textView.becomeFirstResponder()
     }

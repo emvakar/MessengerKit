@@ -9,22 +9,22 @@
 import UIKit
 
 class MSGImessageHeaderView: MSGSectionReusableView {
-    
+
     @IBOutlet weak var label: UILabel!
-    
+
     override var style: MSGMessengerStyle? {
         didSet {
             guard let style = style as? MSGIMessageStyle else { return }
-            
+
             label.font = style.headerFont
             label.textColor = style.headerTextColor
         }
     }
-    
+
     override var title: String? {
         didSet {
             label.text = title
         }
     }
-    
+
 }

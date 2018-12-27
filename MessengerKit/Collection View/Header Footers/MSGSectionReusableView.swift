@@ -9,13 +9,13 @@
 import UIKit
 
 open class MSGSectionReusableView: UICollectionReusableView {
-    
+
     open var style: MSGMessengerStyle?
-    
+
     open var message: MSGMessage?
-    
+
     open var title: String?
-    
+
     open weak var delegate: MSGSectionReusableViewDelegate?
-    
+
 }

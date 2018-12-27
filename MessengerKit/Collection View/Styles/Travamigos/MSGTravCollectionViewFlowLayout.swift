@@ -9,19 +9,19 @@
 import UIKit
 
 open class MSGTravCollectionViewFlowLayout: UICollectionViewFlowLayout {
-    
+
     override public init() {
         super.init()
         setup()
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
-    
+
     open func setup() {
         sectionInset = UIEdgeInsets.init(top: 5, left: 0, bottom: -15, right: 0)
     }
-    
+
 }

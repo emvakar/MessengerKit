@@ -58,7 +58,6 @@ open class MSGMessengerViewController: UIViewController {
         }
     }
 
-
     // MARK: - Public Properties
 
     /// The data source for the messenger
@@ -89,7 +88,6 @@ open class MSGMessengerViewController: UIViewController {
     /// Whether the view controller should automatically scroll to bottom on appear.
     /// Defaults to `true`.
     public var shouldScrollToBottom: Bool = true
-
 
     // MARK: - Lifecycle
 
@@ -145,7 +143,6 @@ open class MSGMessengerViewController: UIViewController {
         self.view = view
     }
 
-
     // MARK: - Setup
 
     private func setupInput() {
@@ -183,13 +180,11 @@ open class MSGMessengerViewController: UIViewController {
 
     }
 
-
     // MARK: - Actions
 
     @objc open dynamic func inputViewDidChange(inputView: MSGInputView) { }
 
     @objc open dynamic func inputViewPrimaryActionTriggered(inputView: MSGInputView) { }
-
 
     // MARK: - Keyboard
 
@@ -231,7 +226,6 @@ open class MSGMessengerViewController: UIViewController {
                 .font: UIFont.systemFont(ofSize: 14, weight: .medium),
                 .foregroundColor: UIColor.black
             ]))
-
 
         collectionView.typingLabel.attributedText = attributedText
         collectionView.layoutTypingLabelIfNeeded()

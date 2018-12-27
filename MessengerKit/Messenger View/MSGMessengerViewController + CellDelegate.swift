@@ -9,43 +9,43 @@
 import SafariServices
 
 extension MSGMessengerViewController: MSGMessageCellDelegate {
-    
+
     public func cellLongPressReceived(for message: MSGMessage) {
         delegate?.longPressReceieved(for: message)
     }
-    
+
     public func cellTapReceived(for message: MSGMessage) {
         delegate?.tapReceived(for: message)
     }
-    
+
     public func cellLinkTapped(url: URL) {
-        
+
         guard let delegate = delegate else { return }
-        
+
         if let scheme = url.scheme, scheme.starts(with: "http"),
         delegate.shouldDisplaySafari(for: url) {
-            
+
             let vc = SFSafariViewController(url: url)
             vc.preferredControlTintColor = tintColor
             present(vc, animated: true)
-            
+
         } else if delegate.shouldOpen(url: url) {
-            
+
             UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
-        
+
         }
 
         delegate.linkTapped(url: url)
-        
+
     }
-    
+
     public func cellAvatarTapped(for user: MSGUser) {
         delegate?.avatarTapped(for: user)
     }
-    
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+private func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
 	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

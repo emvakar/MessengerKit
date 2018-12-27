@@ -9,12 +9,12 @@
 import UIKit
 
 open class MSGImessageInputView: MSGInputView {
-    
+
     override open class var nib: UINib? {
         return UINib(nibName: "MSGImessageInputView",
                      bundle: MessengerKit.bundle)
     }
-    
+
     open override var tintColor: UIColor! {
         didSet {
             textView.tintColor = tintColor
@@ -22,15 +22,15 @@ open class MSGImessageInputView: MSGInputView {
             sendButton.backgroundColor = tintColor
         }
     }
-    
+
     open override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         textView.layer.borderColor = UIColor.lightGray.cgColor
         textView.layer.borderWidth = 0.5
         textView.layer.cornerRadius = (sendButton.bounds.height / 2) + 2
-        
+
         textView.textContainerInset = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 40)
     }
-    
+
 }

@@ -10,82 +10,82 @@ import UIKit
 
 /// A bubble for outgoing messages for use in the iMessage style.
 public class MSGTailOutgoingBubble: UITextView {
-    
+
     lazy var tailImage: UIImage = {
-    
+
         let image = UIImage(
             named: "Outgoing Tail Bubble",
             in: MessengerKit.bundle,
             compatibleWith: nil
         )
-        
+
         let resizableImage = image?.resizableImage(
             withCapInsets: UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 20),
             resizingMode: .stretch
         )
-        
+
         return resizableImage!
-        
+
     }()
-    
+
     lazy var standardImage: UIImage = {
-       
+
         let image = UIImage(
             named: "Outgoing Bubble",
             in: MessengerKit.bundle,
             compatibleWith: nil
         )
-        
+
         let resizableImage = image?.resizableImage(
             withCapInsets: UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 20),
             resizingMode: .stretch
         )
-        
+
         return resizableImage!
-        
+
     }()
-    
+
     lazy var backgroundImageView: UIImageView = {
-        
+
         return UIImageView(
             image: tailImage
         )
-        
+
     }()
-    
+
     var shouldShowTail: Bool = true {
         didSet {
             backgroundImageView.image = shouldShowTail ? tailImage : standardImage
         }
     }
-    
+
     override public var canBecomeFirstResponder: Bool {
         return false
     }
-    
+
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         setupView()
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupView()
     }
-    
+
     init() {
         super.init(frame: .zero, textContainer: nil)
         setupView()
     }
-    
+
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         backgroundImageView.frame = bounds
     }
-    
+
     open func setupView() {
-        
+
         isEditable = false
         isSelectable = true // TODO: Check that links are tappable
         dataDetectorTypes = [.flightNumber, .calendarEvent, .address, .phoneNumber, .link, .lookupSuggestion]
@@ -95,53 +95,53 @@ public class MSGTailOutgoingBubble: UITextView {
         translatesAutoresizingMaskIntoConstraints = false
         textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 15)
         textContainer.lineFragmentPadding = 0
-        
+
         backgroundColor = .clear
         textColor = .white
         if var convert = convertFromOptionalNSAttributedStringKeyDictionary(linkTextAttributes) {
             convert[NSAttributedString.Key.underlineStyle.rawValue] = NSUnderlineStyle.single.rawValue
         }
-        
+
         addBackground()
-        
+
     }
-    
+
     func addBackground() {
         backgroundImageView.contentMode = .scaleToFill
         insertSubview(backgroundImageView, at: 0)
         backgroundImageView.frame = bounds
     }
-    
+
     func calculatedSize(in size: CGSize) -> CGSize {
         return sizeThatFits(CGSize(width: size.width * 0.8, height: .infinity))
     }
-    
+
     // Disables text selection
     override public func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        
+
         guard let pos = closestPosition(to: point) else {
             return false
         }
-        
+
         guard let range = tokenizer.rangeEnclosingPosition(pos, with: .character,
                                                            inDirection: convertToUITextDirection(UITextLayoutDirection.left.rawValue)) else {
                                                             return false
         }
-        
+
         let startIndex = offset(from: beginningOfDocument, to: range.start)
-        
+
         return attributedText.attribute(.link, at: startIndex, effectiveRange: nil) != nil
     }
-    
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+private func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
 	guard let input = input else { return nil }
 	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUITextDirection(_ input: Int) -> UITextDirection {
+private func convertToUITextDirection(_ input: Int) -> UITextDirection {
 	return UITextDirection(rawValue: input)
 }

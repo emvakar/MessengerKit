@@ -9,35 +9,35 @@
 import UIKit
 
 open class MSGTailCollectionViewCell: MSGMessageCell {
-    
+
     @IBOutlet public weak var bubble: MSGTailOutgoingBubble!
-    
+
     @IBOutlet weak var bubbleWidthConstraint: NSLayoutConstraint!
-    
+
     override open var message: MSGMessage? {
         didSet {
             guard let message = message,
                 case let MSGMessageBody.text(body) = message.body else { return }
-            
+
             bubble.text = body
         }
     }
-    
+
     override open var style: MSGMessengerStyle? {
         didSet {
             guard let message = message, let style = style as? MSGIMessageStyle else { return }
-            
+
             if var convert = convertFromOptionalNSAttributedStringKeyDictionary(bubble.linkTextAttributes) {
                 convert[NSAttributedString.Key.underlineColor.rawValue] = style.outgoingLinkColor
                 convert[NSAttributedString.Key.foregroundColor.rawValue] = style.outgoingLinkColor
             }
-            
+
             bubble.font = style.font
             bubble.backgroundImageView.tintColor = message.user.isSender ? style.outgoingBubbleColor : style.incomingBubbleColor
             bubble.textColor = message.user.isSender ? style.outgoingTextColor : style.incomingTextColor
         }
     }
-    
+
     override open var isLastInSection: Bool {
         didSet {
             guard let style = style as? MSGIMessageStyle,
@@ -45,43 +45,43 @@ open class MSGTailCollectionViewCell: MSGMessageCell {
                 bubble.shouldShowTail = true
                 return
             }
-            
+
             bubble.shouldShowTail = isLastInSection
         }
     }
-    
+
     override open func layoutSubviews() {
         super.layoutSubviews()
         let bubbleSize = bubble.calculatedSize(in: bounds.size)
         bubbleWidthConstraint.constant = bubbleSize.width
     }
-    
+
     open override func prepareForReuse() {
         super.prepareForReuse()
         isLastInSection = false
     }
-    
+
     override open func awakeFromNib() {
         super.awakeFromNib()
-        
+
         bubble.delegate = self
     }
 
 }
 
 extension MSGTailCollectionViewCell: UITextViewDelegate {
-    
+
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        
+
         delegate?.cellLinkTapped(url: URL)
-        
+
         return false
     }
-    
+
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+private func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
 	guard let input = input else { return nil }
 	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

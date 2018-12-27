@@ -9,16 +9,16 @@
 import UIKit
 
 class MSGEmojiCollectionViewCell: MSGMessageCell {
-    
+
     @IBOutlet weak var textLabel: UILabel!
-    
+
     override var message: MSGMessage? {
         didSet {
             guard let message = message,
                 case let MSGMessageBody.emoji(body) = message.body else { return }
-            
+
             textLabel.text = body
         }
     }
-    
+
 }
