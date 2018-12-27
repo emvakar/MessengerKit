@@ -26,8 +26,8 @@ open class MSGTailCollectionViewCell: MSGMessageCell {
     override open var style: MSGMessengerStyle? {
         didSet {
             guard let message = message, let style = style as? MSGIMessageStyle else { return }
-            bubble.linkTextAttributes[NSAttributedStringKey.underlineColor.rawValue] = style.outgoingLinkColor
-            bubble.linkTextAttributes[NSAttributedStringKey.foregroundColor.rawValue] = style.outgoingLinkColor
+            convertFromOptionalNSAttributedStringKeyDictionary(bubble.linkTextAttributes)[NSAttributedString.Key.underlineColor.rawValue] = style.outgoingLinkColor
+            convertFromOptionalNSAttributedStringKeyDictionary(bubble.linkTextAttributes)[NSAttributedString.Key.foregroundColor.rawValue] = style.outgoingLinkColor
             bubble.font = style.font
             bubble.backgroundImageView.tintColor = message.user.isSender ? style.outgoingBubbleColor : style.incomingBubbleColor
             bubble.textColor = message.user.isSender ? style.outgoingTextColor : style.incomingTextColor
@@ -74,4 +74,10 @@ extension MSGTailCollectionViewCell: UITextViewDelegate {
         return false
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

@@ -71,7 +71,7 @@ class MSGTravOutgoingBubble: UITextView {
         textContainerInset = UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 20)
         textContainer.lineFragmentPadding = 0
         
-        linkTextAttributes[NSAttributedStringKey.underlineStyle.rawValue] = NSUnderlineStyle.styleSingle.rawValue
+        convertFromOptionalNSAttributedStringKeyDictionary(linkTextAttributes)[NSAttributedString.Key.underlineStyle.rawValue] = NSUnderlineStyle.single.rawValue
         
         addGradientLayer()
     }
@@ -98,7 +98,7 @@ class MSGTravOutgoingBubble: UITextView {
         }
         
         guard let range = tokenizer.rangeEnclosingPosition(pos, with: .character,
-                                                           inDirection: UITextLayoutDirection.left.rawValue) else {
+                                                           inDirection: convertToUITextDirection(UITextLayoutDirection.left.rawValue)) else {
                                                             return false
         }
         
@@ -107,4 +107,15 @@ class MSGTravOutgoingBubble: UITextView {
         return attributedText.attribute(.link, at: startIndex, effectiveRange: nil) != nil
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUITextDirection(_ input: Int) -> UITextDirection {
+	return UITextDirection(rawValue: input)
 }

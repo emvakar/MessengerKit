@@ -26,8 +26,8 @@ open class MSGTravCollectionViewCell: MSGMessageCell {
     override open var style: MSGMessengerStyle? {
         didSet {
             guard let message = message, let style = style as? MSGTravamigosStyle else { return }
-            bubble.linkTextAttributes[NSAttributedStringKey.underlineColor.rawValue] = style.outgoingLinkColor
-            bubble.linkTextAttributes[NSAttributedStringKey.foregroundColor.rawValue] = style.outgoingLinkColor
+            convertFromOptionalNSAttributedStringKeyDictionary(bubble.linkTextAttributes)[NSAttributedString.Key.underlineColor.rawValue] = style.outgoingLinkColor
+            convertFromOptionalNSAttributedStringKeyDictionary(bubble.linkTextAttributes)[NSAttributedString.Key.foregroundColor.rawValue] = style.outgoingLinkColor
             bubble.font = style.font
             bubble.textColor = message.user.isSender ? style.outgoingTextColor : style.incomingTextColor
             bubble.gradientLayer.colors = message.user.isSender ? style.outgoingGradient : style.incomingGradient
@@ -57,4 +57,10 @@ extension MSGTravCollectionViewCell: UITextViewDelegate {
         return false
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

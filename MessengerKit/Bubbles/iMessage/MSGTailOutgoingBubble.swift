@@ -20,7 +20,7 @@ public class MSGTailOutgoingBubble: UITextView {
         )
         
         let resizableImage = image?.resizableImage(
-            withCapInsets: UIEdgeInsetsMake(10, 10, 10, 20),
+            withCapInsets: UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 20),
             resizingMode: .stretch
         )
         
@@ -37,7 +37,7 @@ public class MSGTailOutgoingBubble: UITextView {
         )
         
         let resizableImage = image?.resizableImage(
-            withCapInsets: UIEdgeInsetsMake(10, 10, 10, 20),
+            withCapInsets: UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 20),
             resizingMode: .stretch
         )
         
@@ -99,7 +99,7 @@ public class MSGTailOutgoingBubble: UITextView {
         backgroundColor = .clear
         textColor = .white
         
-        linkTextAttributes[NSAttributedStringKey.underlineStyle.rawValue] = NSUnderlineStyle.styleSingle.rawValue
+        convertFromOptionalNSAttributedStringKeyDictionary(linkTextAttributes)[NSAttributedString.Key.underlineStyle.rawValue] = NSUnderlineStyle.single.rawValue
         
         addBackground()
         
@@ -123,7 +123,7 @@ public class MSGTailOutgoingBubble: UITextView {
         }
         
         guard let range = tokenizer.rangeEnclosingPosition(pos, with: .character,
-                                                           inDirection: UITextLayoutDirection.left.rawValue) else {
+                                                           inDirection: convertToUITextDirection(UITextLayoutDirection.left.rawValue)) else {
                                                             return false
         }
         
@@ -132,4 +132,15 @@ public class MSGTailOutgoingBubble: UITextView {
         return attributedText.attribute(.link, at: startIndex, effectiveRange: nil) != nil
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUITextDirection(_ input: Int) -> UITextDirection {
+	return UITextDirection(rawValue: input)
 }
